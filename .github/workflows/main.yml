@@ -18,7 +18,7 @@ jobs:
         run: echo "The time was ${{ steps.hello.outputs.time }}"
       - name: Get the output time
         run: |
-          if [[ "${{ secrets.abc }}" -eq "BOB" ]]; then echo "......B.O.B"; else echo "...b.o.b"; fi
+          if [[ "${{ secrets.abc }}" == "BOB" ]]; then echo "......B.O.B"; else echo "...b.o.b"; fi
           echo "Hi ${{ secrets.abc }}"
           echo "Hi ${{ secrets.ABC }}"
           echo "Hi ${{ secrets.cde }}"
