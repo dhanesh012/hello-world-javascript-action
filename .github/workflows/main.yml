@@ -24,7 +24,7 @@ jobs:
       - name: Get the output time
         run: |
           echo "The time was ${{ steps.hello.outputs.time }}"
-          echo "The value is ${{ DKAV }}"
+          echo "The value is ${{ steps.hello.outputs.DKAV }}"
       - run: |
           env
         name: env disp
