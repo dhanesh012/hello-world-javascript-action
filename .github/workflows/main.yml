@@ -2,13 +2,12 @@ on:
   push:
   workflow_dispatch:
 
-
+env:
+  VarX: hello
+  VarY: true
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    environment: 
-      name: dev
-      url: https://github.com
 
     name: A job to say hello
     steps:
