@@ -10,6 +10,9 @@ try {
   core.exportVariable('DKAV', time +' some value ');
   core.exportVariable('DKAVSecret', 'TopSecret');
   core.setSecret('TopSecret');
+  core.setOutput('dhanOutVar1','my output var')
+  core.setOutput('dhanOutVar2','dhan')
+  core.setSecret("Dhan")
   // Get the JSON webhook payload for the event that triggered the workflow
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`);
