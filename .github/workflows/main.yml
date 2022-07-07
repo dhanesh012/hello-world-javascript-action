@@ -20,14 +20,14 @@ jobs:
         with:
           who-to-greet: 'dhan'
       # Use the output from the `hello` step
-      - name: Get the output time
+      - name: Get the output time ${{ env.DKAV }}
         run: |
           echo "The time was ${{ steps.hello.outputs.time }}"
           echo "The value is ${{ env.DKAV }}"
           echo "The value is ${{ env.VarY }}"
       - run: |
           env
-        name: env disp
+        name: env disp ${{ env.VarY }}
       - name: echos
         run: |
           if [[ "${{ secrets.abc }}" == "BOB" ]]; then echo "......B.O.B"; else echo "...b.o.b"; fi
