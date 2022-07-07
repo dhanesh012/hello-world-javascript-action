@@ -17,7 +17,7 @@ jobs:
         name: env disp
       - name: Hello world action step
         id: hello
-        uses: dhanesh012/hello-world-javascript-action@v1
+        uses: dhanesh012/hello-world-javascript-action@main
         with:
           who-to-greet: 'dhan'
       # Use the output from the `hello` step
