@@ -8,6 +8,7 @@ try {
   const time = (new Date()).toTimeString();
   core.setOutput("time", time);
   core.exportVariable('DKAV', time +' some value ');
+  core.setSecret('DKAV');
   // Get the JSON webhook payload for the event that triggered the workflow
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`);
