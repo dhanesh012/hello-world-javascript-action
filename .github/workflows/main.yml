@@ -2,6 +2,10 @@ on:
   push:
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
+      
 env:
   VarX: hello
   VarY: true
@@ -12,6 +16,18 @@ jobs:
 
     name: A job to say hello
     steps:
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+            client-id: ${{ secrets.AZURE_CLIENT_ID }}
+            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: 'Run Azure CLI commands'
+        run: |
+            az account show
+            az group list
+            pwd 
       - run: |
           env
         name: env disp ${{ env.DKAV }}
