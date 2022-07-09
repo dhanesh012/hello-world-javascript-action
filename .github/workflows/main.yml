@@ -13,7 +13,7 @@ env:
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-
+    environment: dev
     name: A job to say hello
     steps:
       - run: az --version
