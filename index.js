@@ -111,7 +111,7 @@ try {
     // Get the JSON webhook payload for the event that triggered the workflow
     fetchSecrets();
     var payload = JSON.stringify(github.context.payload, undefined, 2);
-    console.log("The event payload : ".concat(payload));
+//     console.log("The event payload : ".concat(payload));
 }
 catch (error) {
     core.setFailed(error.message);
