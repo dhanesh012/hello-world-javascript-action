@@ -49,7 +49,41 @@ var identity_1 = require("@azure/identity");
 var keyvault_secrets_1 = require("@azure/keyvault-secrets");
 var vaultName = "dhanesh012";
 var url = "https://".concat(vaultName, ".vault.azure.net");
-var clientN = new keyvault_secrets_1.SecretClient(url, new identity_1.DefaultAzureCredential());
+// `who-to-greet` input defined in action metadata file
+var nameToGreet = core.getInput('who-to-greet');
+console.log("Hello ".concat(nameToGreet, "!"));
+var time = (new Date()).toTimeString();
+core.setOutput("time", time);
+core.exportVariable('DKAV', time + ' some value ');
+core.exportVariable('DKAVSecret', 'TopSecret');
+core.setSecret('TopSecret');
+core.setOutput('dhanOutVar1', 'my output var');
+core.setOutput('dhanOutVar2', 'dhan');
+core.setSecret("Dhan");
+var KeyVaultAuthenticationSP = JSON.parse(core.getInput("creds"));
+if (Object.keys(KeyVaultAuthenticationSP).length && KeyVaultAuthenticationSP["tenantId"] && KeyVaultAuthenticationSP["clientId"] && KeyVaultAuthenticationSP["clientSecret"]) {
+    core.notice("[authentication] using SP credentials.");
+    // && KeyVaultAuthenticationSP["subscriptionId"]
+    process.env['AZURE_CLIENT_ID'] = KeyVaultAuthenticationSP["clientId"];
+    process.env['AZURE_TENANT_ID'] = KeyVaultAuthenticationSP["tenantId"];
+    process.env['AZURE_CLIENT_SECRET'] = KeyVaultAuthenticationSP["clientSecret"];
+    // process.env['AZURE_SUBSCRIPTION_ID'] = 'value'
+    var clientN = new keyvault_secrets_1.SecretClient(url, new identity_1.DefaultAzureCredential());
+}
+else {
+    core.notice("[authentication] using succeeded az login tokens.");
+    var clientN = new keyvault_secrets_1.SecretClient(url, new identity_1.DefaultAzureCredential());
+}
+//   async function fetchSecrets() {
+// for await (const item of clientN.listPropertiesOfSecrets()) {
+//     console.log(item.name)
+//     core.info("Fetching secret - ${item.name}")
+// }
+//   }
+// Get the JSON webhook payload for the event that triggered the workflow
+fetchSecrets();
+var payload = JSON.stringify(github.context.payload, undefined, 2);
+console.log("The event payload : ".concat(payload));
 function fetchSecrets() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
@@ -89,30 +123,4 @@ function fetchSecrets() {
             }
         });
     });
-}
-try {
-    // `who-to-greet` input defined in action metadata file
-    var nameToGreet = core.getInput('who-to-greet');
-    console.log("Hello ".concat(nameToGreet, "!"));
-    var time = (new Date()).toTimeString();
-    core.setOutput("time", time);
-    core.exportVariable('DKAV', time + ' some value ');
-    core.exportVariable('DKAVSecret', 'TopSecret');
-    core.setSecret('TopSecret');
-    core.setOutput('dhanOutVar1', 'my output var');
-    core.setOutput('dhanOutVar2', 'dhan');
-    core.setSecret("Dhan");
-    //   async function fetchSecrets() {
-    // for await (const item of clientN.listPropertiesOfSecrets()) {
-    //     console.log(item.name)
-    //     core.info("Fetching secret - ${item.name}")
-    // }
-    //   }
-    // Get the JSON webhook payload for the event that triggered the workflow
-    fetchSecrets();
-    var payload = JSON.stringify(github.context.payload, undefined, 2);
-//     console.log("The event payload : ".concat(payload));
-}
-catch (error) {
-    core.setFailed(error.message);
 }
